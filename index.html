@@ -1,10 +1,14 @@
 <title>Monkey Type Clone - Test your typing skills!</title>
 <style>
+  @font-face {
+    font-family: "Menlo";
+    src: url(./Font/Menlo-Regular.ttf);
+  }
   body {
     background-color: #121212;
     color: whitesmoke;
 
-    font-family: Menlo, monospace;
+    font-family: "Menlo", monospace;
 
     display: grid;
     justify-content: center;
@@ -39,5 +43,23 @@
 
   const TEXT = 'Typing is a skill that improves with practice. The more you type, the faster and more accurate you become.';
 
-  
+  let words = [];
+  let currentTime = INITIAL_TIME;
+
+  initGame();
+  initEvent();
+
+  function initGame() {
+    words = TEXT.split(' ').slice(0, 32);
+    currentTime = INITIAL_TIME;
+
+    $time.textContent = currentTime
+  }
+
+  function initEvent() {
+
+  }
+
+
+
 </script>
