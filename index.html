@@ -4,6 +4,15 @@
     font-family: "Menlo";
     src: url(./Font/Menlo-Regular.ttf);
   }
+
+  :root {
+    --green: #00b755;
+    --yellow: #daaf38;
+    --red: #ca4754;
+    --black: #222;
+    --gray: #999;
+  }
+
   body {
     background-color: #121212;
     color: whitesmoke;
@@ -15,12 +24,33 @@
     margin-top: 32px;
     padding: 32px;
   }
-  :root {
-    --green: #00b755;
-    --yellow: #daaf38;
-    --red: #ca4754;
-    --black: #222;
-    --gray: #999;
+
+  section {
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    max-width: 500px;
+  }
+
+  time {
+    color: var(--yellow);
+  }
+
+  input {
+    z-index: -1;
+    position: absolute;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+    /* opacity: 0; */
+  }
+
+  p {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 3px 6px;
+    margin: 0;
   }
 </style>
 
@@ -67,12 +97,24 @@
         </x-word>
       `;
     }).join('');
+    const intervalId = setInterval(() => {
+      currentTime--;
+      $time.textContent = currentTime;
+
+      if (currentTime === 0) {
+        clearInterval(intervalId);
+        gameOver();
+        console.log('Game over');
+      }
+    }, 1000);
   }
 
   function initEvent() {
 
   }
 
+  function gameOver() {
 
+  }
 
 </script>
