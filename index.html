@@ -53,7 +53,20 @@
     words = TEXT.split(' ').slice(0, 32);
     currentTime = INITIAL_TIME;
 
-    $time.textContent = currentTime
+    $time.textContent = currentTime;
+
+    $p.innerHTML = words.map((word, index) => {
+      const letters = word.split('');
+
+      return `
+        <word>
+          ${letters
+          .map(letter => `<letter>${letter}</letter>`)
+          .join('')
+          }
+        </word>
+      `;
+    }).join('');
   }
 
   function initEvent() {
