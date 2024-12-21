@@ -3,7 +3,13 @@
   body {
     background-color: #121212;
     color: whitesmoke;
+
     font-family: Menlo, monospace;
+
+    display: grid;
+    justify-content: center;
+    margin-top: 32px;
+    padding: 32px;
   }
   :root {
     --green: #00b755;
@@ -13,10 +19,19 @@
     --gray: #999;
   }
 </style>
-<body>
-  
-  <main>
-    Monkey
-  </main>
 
+<body>
+  <main>
+    <section id="game">
+      <time>30</time>
+      <p></p>
+      <input autofocus>
+    </section>
+  </main>
 </body>
+
+<script>
+  const $time = document.querySelector('time');
+  const $p = document.querySelector('p');
+  const $input = document.querySelector('input');
+</script>
