@@ -52,6 +52,29 @@
     gap: 3px 6px;
     margin: 0;
   }
+
+  x-letter {
+    position: relative;
+    color: var(--gray);
+
+    &.active::before {
+      position: absolute;
+      content: '|';
+      font-size: 14px;
+      color: var(--yellow);
+      left: -70%;
+      animation: 1s blink infinite ease-in-out;
+    }
+  }
+
+  @keyframes blink {
+    0%, 50% {
+      opacity: 1;
+    }
+    75% {
+      opacity: 0;
+    }
+  }
 </style>
 
 <body>
@@ -59,7 +82,7 @@
     <section id="game">
       <time>30</time>
       <p></p>
-      <input autofocus>
+      <input autofocus />
     </section>
   </main>
 </body>
@@ -71,13 +94,13 @@
 
   const INITIAL_TIME = 30;
 
-  const TEXT = 'Typing is a skill that improves with practice. The more you type, the faster and more accurate you become.';
+  const TEXT = 'typing is a skill that improves with practice. The more you type, the faster and more accurate you become.';
 
   let words = [];
   let currentTime = INITIAL_TIME;
 
   initGame();
-  initEvent();
+  initEvents();
 
   function initGame() {
     words = TEXT.split(' ').slice(0, 32);
@@ -97,6 +120,11 @@
         </x-word>
       `;
     }).join('');
+
+    const $firstWord = $p.querySelector('x-word');
+    $firstWord.classList.add('active');
+    $firstWord.querySelector('x-letter').classList.add('active');
+
     const intervalId = setInterval(() => {
       currentTime--;
       $time.textContent = currentTime;
@@ -109,12 +137,19 @@
     }, 1000);
   }
 
-  function initEvent() {
-
+  function initEvents() {
+    document.addEventListener('keydown', () => {
+      $input.focus();
+    });
+    $input.addEventListener('keydown', onKeyDown);
+    $input.addEventListener('keyup', onkeyup);
   }
 
-  function gameOver() {
+  function onKeyDown () {}
+  function onkeyup () {}
 
+  function gameOver() {
+    console.log('Game over');
   }
 
 </script>
