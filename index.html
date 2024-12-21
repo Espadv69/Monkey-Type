@@ -59,12 +59,12 @@
       const letters = word.split('');
 
       return `
-        <word>
+        <x-word>
           ${letters
-          .map(letter => `<letter>${letter}</letter>`)
+          .map(letter => `<x-letter>${letter}</x-letter>`)
           .join('')
           }
-        </word>
+        </x-word>
       `;
     }).join('');
   }
