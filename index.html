@@ -146,7 +146,22 @@
   }
 
   function onKeyDown () {}
-  function onkeyup () {}
+
+  function onkeyup () {
+    const $currentWord = $p.querySelector('x-word.active');
+    const $currentLetter = $currentWord.querySelector('x-letter.active');
+
+    const currentWord = $currentWord.innerText.trim();
+    $input.maxLength = currentWord.length;
+    console.log({ value: $input.value, currentWord });
+    
+    const $allLetters = $currentWord.querySelectorAll('x-letter');
+
+    $input.value.split('').forEach((char, index) => {
+      const $letter = $allLetters[index];
+      const letterToCheck = currentWord[index];
+    })
+  }
 
   function gameOver() {
     console.log('Game over');
