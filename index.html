@@ -157,7 +157,18 @@
     $input.addEventListener('keyup', onkeyup);
   }
 
-  function onKeyDown () {}
+  function onKeyDown (event) {
+    const $currentWord = $p.querySelector('x-word.active');
+    const $currentLetter = $currentWord.querySelector('x-letter.active');
+
+    const { key } = event;
+    if (key === ' ') {
+      event.preventDefault();
+
+      const $nextWord = $currentWord.nextElementSibling;
+      const $nextLetter = $nextWord.querySelector('x-letter');
+    }
+  }
 
   function onkeyup () {
     const $currentWord = $p.querySelector('x-word.active');
