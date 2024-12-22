@@ -53,6 +53,20 @@
     margin: 0;
   }
 
+  h2 {
+    font-weight: 400;
+    opacity: .6;
+    margin: 0;
+    font-size: 16px;
+  }
+
+  h3 {
+    font-weight: 400;
+    margin: 0;
+    font-size: 24px;
+    color: var(--yellow);
+  }
+
   x-letter {
     position: relative;
     color: var(--gray);
@@ -82,15 +96,19 @@
   x-word {
     border-bottom: 1.5px solid transparent;
     transition: border-color .3s ease-in-out;
+
     &.marked {
       border-color: var(--red);
     }
   }
 
   @keyframes blink {
-    0%, 50% {
+
+    0%,
+    50% {
       opacity: 1;
     }
+
     75% {
       opacity: 0;
     }
@@ -103,6 +121,21 @@
   #result {
     display: none;
   }
+
+  #reload-button {
+    margin-top: 24px;
+    background: transparent;
+    color: whitesmoke;
+    border: 2px solid whitesmoke;
+    border-radius: .3rem;
+    padding: 8px 10px;
+    opacity: .4;
+    transition: opacity .3s ease-in-out;
+
+    &:hover {
+      opacity: 1;
+    }
+  }
 </style>
 
 <body>
@@ -111,6 +144,17 @@
       <time>30</time>
       <p></p>
       <input autofocus />
+    </section>
+    <section id="result">
+      <h2>wpm</h2>
+      <h3></h3>
+
+      <h2>accuracy</h2>
+      <h3></h3>
+
+      <button id="reload-button">
+        <svg width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="1.5"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-reload"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M19.933 13.041a8 8 0 1 1 -9.925 -8.788c3.899 -1 7.935 1.007 9.425 4.747" /><path d="M20 4v5h-5" /></svg>
+      </button>
     </section>
   </main>
 </body>
@@ -121,8 +165,13 @@
   const $time = document.querySelector('time');
   const $p = document.querySelector('p');
   const $input = document.querySelector('input');
+  const $game = document.querySelector('#game');
+  const $result = document.querySelector('#result');
+  const $wpm = $result.querySelector('h3');
+  const $accuracy = $result.querySelector('h3:last-child');
+  const $button = document.querySelector('#reload-button');
 
-  const INITIAL_TIME = 30;
+  const INITIAL_TIME = 3;
 
   let words = [];
   let currentTime = INITIAL_TIME;
@@ -147,7 +196,7 @@
           ${letters
           .map(letter => `<x-letter>${letter}</x-letter>`)
           .join('')
-          }
+        }
         </x-word>
       `;
     }).join('');
@@ -176,7 +225,7 @@
     $input.addEventListener('keyup', onkeyup);
   }
 
-  function onKeyDown (event) {
+  function onKeyDown(event) {
     const $currentWord = $p.querySelector('x-word.active');
     const $currentLetter = $currentWord.querySelector('x-letter.active');
 
@@ -201,15 +250,15 @@
 
       const classToAdd = hasMissedLetters ? 'marked' : 'correct';
 
-      hasMissedLetters 
-        ? $currentWord.classList.add('marked') 
+      hasMissedLetters
+        ? $currentWord.classList.add('marked')
         : $currentWord.classList.add('correct');
       return
     }
 
     if (key === 'Backspace') {
       const $prevWord = $currentWord.previousElementSibling;
-      const $prevLetter = $currentLetter.previousElementSibling; 
+      const $prevLetter = $currentLetter.previousElementSibling;
 
       if (!$prevWord && !$prevLetter) {
         event.preventDefault();
@@ -234,14 +283,14 @@
     }
   }
 
-  function onkeyup () {
+  function onkeyup() {
     const $currentWord = $p.querySelector('x-word.active');
     const $currentLetter = $currentWord.querySelector('x-letter.active');
 
     const currentWord = $currentWord.innerText.trim();
     $input.maxLength = currentWord.length;
     console.log({ value: $input.value, currentWord });
-    
+
     const $allLetters = $currentWord.querySelectorAll('x-letter');
     $allLetters.forEach($letter => $letter.classList.remove('correct', 'incorrect'));
 
@@ -267,6 +316,20 @@
   }
 
   function gameOver() {
+    $game.style.display = 'none';
+    $result.style.display = 'flex';
+
+    const correctWords = $p.querySelectorAll('x-word.correct').length;
+    const correctLetters = $p.querySelectorAll('x-letter.correct').length;
+    const incorrectLetters = $p.querySelectorAll('x-letter.incorrect').length;
+    const totalLetters = correctLetters + incorrectLetters
+    const accuracy =  totalLetters > 0 
+      ? (correctLetters / totalLetters) * 100
+      : 0;
+
+    const wpm = correctWords * 60 / 10;
+    $wpm.textContent = wpm;
+    $accuracy.textContent = `${accuracy.toFixed(2)}%`;
     console.log('Game over');
   }
 
