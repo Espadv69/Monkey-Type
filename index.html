@@ -43,7 +43,7 @@
     top: 0;
     left: 0;
     pointer-events: none;
-    /* opacity: 0; */
+    opacity: 0;
   }
 
   p {
@@ -95,6 +95,14 @@
       opacity: 0;
     }
   }
+
+  #game {
+    display: flex;
+  }
+
+  #result {
+    display: none;
+  }
 </style>
 
 <body>
@@ -107,14 +115,14 @@
   </main>
 </body>
 
-<script>
+<script type="module">
+  import { words as INITIAL_WORDS } from './data.js';
+
   const $time = document.querySelector('time');
   const $p = document.querySelector('p');
   const $input = document.querySelector('input');
 
   const INITIAL_TIME = 30;
-
-  const TEXT = 'typing is a skill that improves with practice. The more you type, the faster and more accurate you become.';
 
   let words = [];
   let currentTime = INITIAL_TIME;
@@ -123,7 +131,10 @@
   initEvents();
 
   function initGame() {
-    words = TEXT.split(' ').slice(0, 32);
+    words = INITIAL_WORDS.toSorted(
+      () => Math.random() - 0.5
+    ).slice(0, 12);
+
     currentTime = INITIAL_TIME;
 
     $time.textContent = currentTime;
