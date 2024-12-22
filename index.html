@@ -156,10 +156,15 @@
     console.log({ value: $input.value, currentWord });
     
     const $allLetters = $currentWord.querySelectorAll('x-letter');
+    $allLetters.forEach($letter => $letter.classList.remove('correct', 'incorrect'));
 
     $input.value.split('').forEach((char, index) => {
       const $letter = $allLetters[index];
       const letterToCheck = currentWord[index];
+
+      const isCorrect = char === letterToCheck;
+      const letterClass = isCorrect ? 'correct' : 'incorrect';
+      $letter.classList.add(letterClass);
     })
   }
 
