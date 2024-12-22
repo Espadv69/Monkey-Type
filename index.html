@@ -167,6 +167,14 @@
 
       const $nextWord = $currentWord.nextElementSibling;
       const $nextLetter = $nextWord.querySelector('x-letter');
+
+      $currentWord.classList.remove('active');
+      $currentLetter.classList.remove('active');
+
+      $nextWord.classList.add('active');
+      $nextLetter.classList.add('active');
+
+      $input.value = '';
     }
   }
 
