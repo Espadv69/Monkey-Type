@@ -66,6 +66,10 @@
       animation: 1s blink infinite ease-in-out;
     }
 
+    &.active.is-last::before {
+      left: 70%;
+    }
+
     &.correct {
       color: var(--green);
     }
@@ -175,7 +179,7 @@
       $letter.classList.add(letterClass);
     })
 
-    $currentLetter.classList.remove('active');
+    $currentLetter.classList.remove('active', 'is-last');
 
     const inputLength = $input.value.length;
     const $nextActiveLetter = $allLetters[inputLength];
