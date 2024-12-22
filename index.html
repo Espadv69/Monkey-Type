@@ -80,7 +80,7 @@
   }
 
   x-word {
-    border-bottom: 2px solid transparent;
+    border-bottom: 1.5px solid transparent;
     transition: border-color .3s ease-in-out;
     &.marked {
       border-color: var(--red);
@@ -193,6 +193,17 @@
       hasMissedLetters 
         ? $currentWord.classList.add('marked') 
         : $currentWord.classList.add('correct');
+      return
+    }
+
+    if (key === 'Backspace') {
+      const $prevWord = $currentWord.previousElementSibling;
+      const $prevLetter = $currentLetter.previousElementSibling; 
+
+      if (!$prevWord && !$prevLetter) {
+        event.preventDefault();
+        return;
+      }
     }
   }
 
