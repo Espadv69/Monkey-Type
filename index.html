@@ -123,6 +123,7 @@
   }
 
   #reload-button {
+    cursor: pointer;
     margin-top: 24px;
     background: transparent;
     color: whitesmoke;
@@ -130,10 +131,11 @@
     border-radius: .3rem;
     padding: 8px 10px;
     opacity: .4;
-    transition: opacity .3s ease-in-out;
+    transition: opacity .3s ease-in-out, transform .3s ease-in-out;
 
     &:hover {
       opacity: 1;
+      scale: 105%;
     }
   }
 </style>
@@ -147,10 +149,10 @@
     </section>
     <section id="result">
       <h2>wpm</h2>
-      <h3></h3>
+      <h3 id="result-wpm"></h3>
 
       <h2>accuracy</h2>
-      <h3></h3>
+      <h3 id="result"></h3>
 
       <button id="reload-button">
         <svg width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="1.5"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-reload"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M19.933 13.041a8 8 0 1 1 -9.925 -8.788c3.899 -1 7.935 1.007 9.425 4.747" /><path d="M20 4v5h-5" /></svg>
@@ -167,11 +169,11 @@
   const $input = document.querySelector('input');
   const $game = document.querySelector('#game');
   const $result = document.querySelector('#result');
-  const $wpm = $result.querySelector('h3');
-  const $accuracy = $result.querySelector('h3:last-child');
+  const $wpm = $result.querySelector('#result-wpm');
+  const $accuracy = $result.querySelector('#result-accuracy');
   const $button = document.querySelector('#reload-button');
 
-  const INITIAL_TIME = 3;
+  const INITIAL_TIME = 30;
 
   let words = [];
   let currentTime = INITIAL_TIME;
@@ -180,6 +182,10 @@
   initEvents();
 
   function initGame() {
+    $game.style.display = 'flex';
+    $result.style.display = 'none';
+    $input.value = '';
+
     words = INITIAL_WORDS.toSorted(
       () => Math.random() - 0.5
     ).slice(0, 32);
@@ -223,6 +229,7 @@
     });
     $input.addEventListener('keydown', onKeyDown);
     $input.addEventListener('keyup', onkeyup);
+    $button.addEventListener('click', initGame)
   }
 
   function onKeyDown(event) {
@@ -327,7 +334,7 @@
       ? (correctLetters / totalLetters) * 100
       : 0;
 
-    const wpm = correctWords * 60 / 10;
+    const wpm = correctWords * 60 / INITIAL_TIME;
     $wpm.textContent = wpm;
     $accuracy.textContent = `${accuracy.toFixed(2)}%`;
     console.log('Game over');
